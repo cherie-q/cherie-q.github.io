@@ -1,0 +1,18 @@
+<div class="table-wrap" role="region" aria-label="Glossary" tabindex="0">
+    <table class="compare">
+      <caption>Terms used in this series</caption>
+      <thead>
+        <tr><th scope="col">Term</th><th scope="col">Meaning</th></tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">Copilot coding agent</th><td>GitHub Copilot working on an issue assigned to it: it opens a draft PR and pushes commits, one session per <code>@copilot</code> comment.</td></tr>
+        <tr><th scope="row"><a href="https://github.com/bradygaster/squad">bradygaster/squad</a></th><td>The open-source framework the squad is built on: a team of agents with written charters, run by a coordinator.</td></tr>
+        <tr><th scope="row">Run (tick)</th><td>One hourly pass of the squad over every PR. The squad’s own files call it a tick.</td></tr>
+        <tr><th scope="row">Round</th><td>One cycle on one PR: review, checks, one comment to Copilot, then wait for its next push.</td></tr>
+        <tr><th scope="row">Watch-only (shadow mode)</th><td>The squad does everything except write to GitHub, and records what it would have posted.</td></tr>
+        <tr><th scope="row">Review brief</th><td>A short file I write for one issue that pins what its PR may touch.</td></tr>
+        <tr><th scope="row">Known break</th><td>A failure on main, or a flaky test, that is tracked by an issue, so the squad doesn’t send it to Copilot.</td></tr>
+        <tr><th scope="row">Automation</th><td>A saved agent task that the GitHub Copilot app runs on a schedule. The squad’s hourly run is one.</td></tr>
+      </tbody>
+    </table>
+  </div>

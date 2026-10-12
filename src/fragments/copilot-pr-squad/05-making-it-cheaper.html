@@ -1,0 +1,70 @@
+<section id="measure" aria-labelledby="measure-h">
+  <h2 id="measure-h">How I measured it</h2>
+  <p>Cost here is Copilot usage in <a href="https://docs.github.com/en/copilot/concepts/billing-and-usage/individuals/billing">AI credits</a>, read from the session history on the machine that runs the squad. The Copilot CLI records every model call there with its tokens and the AI credits they cost, and the squad adds those up for each run, including the agents it starts. A run’s total rises with how many PRs it works, so the fair comparison holds the work steady: cost per run when runs did about the same amount of work, and cost per PR on busy runs.</p>
+  <aside class="callout" aria-label="Note on the data">
+    <p class="callout-label">About these numbers</p>
+    <p>I only started logging cost per run on Oct 6, and per PR that evening, so the per-run figures here were rebuilt afterwards from session history: 69 runs that started agents, from Sep 29 to Oct 8. Runs that stopped because nothing changed aren’t in it. The three Oct 7 changes landed about seven hours apart, so their effects can’t be separated.</p>
+  </aside>
+</section>
+<section id="changes" aria-labelledby="changes-h">
+  <h2 id="changes-h">What changed</h2>
+  <div class="table-wrap" role="region" aria-label="Cost changes" tabindex="0">
+    <table class="compare">
+      <caption>The baseline, and what changed</caption>
+      <thead>
+        <tr><th scope="col">Change</th><th scope="col">Effect</th></tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">The baseline, Sep 29 to Oct 7</th>        <td>54 runs averaged 2,385 AI credits, the most expensive 7,705. In the runs that logged it, the two agents on the older model, Communicator and Reviewer, were 43 to 71% of each run’s cost.</td></tr>
+                <tr><th scope="row">Earlier, on Oct 1: a run where nothing changed stops before starting any agents</th><td>A quiet run fell from about 230 AI credits to about 89.</td></tr>
+                <tr><th scope="row">The run’s setup and wrap-up steps each happen in one call</th><td>About a dozen fewer large calls a run. Calls spread more than five minutes apart pay to reload their whole context, about 100 AI credits each time.</td></tr>
+        <tr><th scope="row">The Coordinator loads only the tools it uses</th><td>Its first call fell from 39.4K to 23.5K tokens.</td></tr>
+        <tr><th scope="row">Communicator, Reviewer and Rai move to Opus 5.5, a newer model of the same tier</th><td>The same tier of model at lower rates, estimated at about 58% of the old cost.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<section id="result" aria-labelledby="result-h">
+  <h2 id="result-h">The result</h2>
+  <p>Runs after the changes started about as many agents as runs before them, and cost about a third less. On busy runs, the cost per PR roughly halved. The Coordinator saw the biggest drop.</p>
+  <div class="table-wrap" role="region" aria-label="Cost before and after" tabindex="0">
+    <table class="compare">
+      <caption>Before and after the Oct 7 cost changes. The first four rows cover every run, from session history; the last two cover runs that worked five or more PRs, from the run logs.</caption>
+      <thead>
+        <tr><th scope="col">Per run</th><th scope="col">Before (54 runs)</th><th scope="col">After (11 runs)</th><th scope="col">Change</th></tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">Agents started</th><td>12.7</td><td>13.3</td><td>About the same work</td></tr>
+        <tr><th scope="row">AI credits</th><td>2,385</td><td>1,549</td><td>35% lower</td></tr>
+        <tr><th scope="row">AI credits per agent started</th><td>187</td><td>117</td><td>37% lower</td></tr>
+        <tr><th scope="row">Coordinator AI credits</th><td>567</td><td>243</td><td>57% lower</td></tr>
+        <tr><th scope="row">AI credits per PR, busy runs</th><td>418 (4 runs, 34 PRs)</td><td>217 (11 runs, 81 PRs)</td><td>48% lower</td></tr>
+        <tr><th scope="row">Agents’ AI credits per PR, same runs</th><td>305</td><td>173</td><td>43% lower</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The “after” side is less than a day of runs, and review briefs added work to each review in the same window, so treat it as a strong early signal rather than a settled number. The most expensive run since the changes cost 2,379 AI credits; before, runs above 6,000 happened on busy days.</p>
+</section>
+<section id="cheaper-model" aria-labelledby="cheaper-model-h">
+  <h2 id="cheaper-model-h">Trying a cheaper model</h2>
+  <p>The Reviewer and Communicator were the biggest cost, so before switching either I compared two models, the one they ran on and one known to be cheaper. I replayed real past rounds on both, in a sandbox that couldn’t post.</p>
+  <div class="table-wrap" role="region" aria-label="Model replay results" tabindex="0">
+    <table class="compare">
+      <caption>Replay of 10 real rounds, Oct 7</caption>
+      <thead>
+        <tr><th scope="col">Agent</th><th scope="col">Current model</th><th scope="col">Cheaper model</th><th scope="col">How quality was judged</th></tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">Communicator, 5 rounds</th><td>Won all 5</td><td>About a fifth of the cost</td><td>Each pair of comments to Copilot, read blind with the model names hidden.</td></tr>
+        <tr><th scope="row">Reviewer, 5 rounds</th><td>Agreed with 10 of 11 real decisions</td><td>About a third of the cost; agreed with 6 of 11</td><td>Decisions on each finding, compared with what the real round decided. One PR was left out because the sandbox lacked its history.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The cheaper model’s comments were vaguer, and in two ways they would have sent Copilot the wrong way: a point that didn’t apply, and tests nobody needed. Each of those costs another hourly round, which is worth more than the saving. I kept the current model.</p>
+  <p>That doesn’t mean every agent needs the biggest model. The Tester, Scribe and Fact Checker run on a smaller, cheaper one, Sonnet, by default, because their work follows set steps: run the existing checks, update the records, check a comment’s facts against GitHub. The Communicator’s charter allows it too for simple rounds, like moving a finished draft to ready.</p>
+  <p>The lessons I took:</p>
+  <ul>
+    <li><strong>Measure cost per unit of work from day one.</strong> I didn’t, and had to rebuild the first week’s baseline afterwards.</li>
+    <li><strong>Experiment before changing a model.</strong> A lower cost always gives something up, and here it would have been extra rounds. But the most expensive model isn’t needed everywhere, and only a test on real work shows where it is.</li>
+  </ul>
+</section>

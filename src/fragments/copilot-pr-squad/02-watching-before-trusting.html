@@ -1,0 +1,73 @@
+<section id="loop" aria-labelledby="loop-h">
+  <h2 id="loop-h">The loop behind every release</h2>
+
+  <p>None of this was designed up front. Every improvement came from the same loop: the squad ran, I read the log of what it did, and each mistake became a test that failed, then a fix, then a new release. Every comment the squad posts carries the version that wrote it, so any post traces straight back to the rules that produced it.</p>
+  <figure aria-labelledby="cycle-caption"><div class="table-wrap"><svg viewBox="0 0 1000 250" role="img" aria-labelledby="cycle-title" style="width:100%;min-width:760px;height:auto"><title id="cycle-title">The fix cycle the squad improved through</title><rect x="60" y="30" width="220" height="60" rx="8" fill="var(--surface)" stroke="var(--muted)" stroke-width="1.5"/><text x="170.0" y="56.0" text-anchor="middle" font-size="14" fill="var(--ink)">The squad runs</text><text x="170.0" y="74.0" text-anchor="middle" font-size="14" fill="var(--ink)">(every hour)</text><rect x="390" y="30" width="220" height="60" rx="8" fill="var(--surface)" stroke="var(--muted)" stroke-width="1.5"/><text x="500.0" y="56.0" text-anchor="middle" font-size="14" fill="var(--ink)">It writes a log</text><text x="500.0" y="74.0" text-anchor="middle" font-size="14" fill="var(--ink)">of what it did</text><rect x="720" y="30" width="220" height="60" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><text x="830.0" y="56.0" text-anchor="middle" font-size="14" fill="var(--ink)">I read the log and</text><text x="830.0" y="74.0" text-anchor="middle" font-size="14" fill="var(--ink)">spot a mistake</text><rect x="720" y="170" width="220" height="60" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><text x="830.0" y="196.0" text-anchor="middle" font-size="14" fill="var(--ink)">I write a test</text><text x="830.0" y="214.0" text-anchor="middle" font-size="14" fill="var(--ink)">that fails on it</text><rect x="390" y="170" width="220" height="60" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><text x="500.0" y="196.0" text-anchor="middle" font-size="14" fill="var(--ink)">I fix the script</text><text x="500.0" y="214.0" text-anchor="middle" font-size="14" fill="var(--ink)">or the charter</text><rect x="60" y="170" width="220" height="60" rx="8" fill="var(--surface)" stroke="var(--muted)" stroke-width="1.5"/><text x="170.0" y="196.0" text-anchor="middle" font-size="14" fill="var(--ink)">New version released;</text><text x="170.0" y="214.0" text-anchor="middle" font-size="14" fill="var(--ink)">every comment carries it</text><path d="M 280.0 60.0 L 388.0 60.0" fill="none" stroke="var(--muted)" stroke-width="1.5"/><polygon points="388.0,60.0 380.0,64.0 380.0,56.0" fill="var(--muted)"/><path d="M 610.0 60.0 L 718.0 60.0" fill="none" stroke="var(--muted)" stroke-width="1.5"/><polygon points="718.0,60.0 710.0,64.0 710.0,56.0" fill="var(--muted)"/><path d="M 830.0 90.0 L 830.0 168.0" fill="none" stroke="var(--muted)" stroke-width="1.5"/><polygon points="830.0,168.0 826.0,160.0 834.0,160.0" fill="var(--muted)"/><path d="M 720.0 200.0 L 612.0 200.0" fill="none" stroke="var(--muted)" stroke-width="1.5"/><polygon points="612.0,200.0 620.0,196.0 620.0,204.0" fill="var(--muted)"/><path d="M 390.0 200.0 L 282.0 200.0" fill="none" stroke="var(--muted)" stroke-width="1.5"/><polygon points="282.0,200.0 290.0,196.0 290.0,204.0" fill="var(--muted)"/><path d="M 170.0 170.0 L 170.0 92.0" fill="none" stroke="var(--muted)" stroke-width="1.5"/><polygon points="170.0,92.0 174.0,100.0 166.0,100.0" fill="var(--muted)"/><text x="180.0" y="136.0" text-anchor="start" font-size="13" fill="var(--muted)">the next run uses it</text></svg></div><figcaption id="cycle-caption">The loop behind all 96 releases. Blue is mine.</figcaption></figure>
+  <p>I ran that loop 96 times in eleven days, from 0.1.0 to 0.5.2. The squad earned write access one step at a time along the way:</p>
+  <figure aria-labelledby="timeline-caption">
+    <div class="table-wrap"><ol class="htl">
+      <li><p class="htl-date"><a href="#scoping">Sep 28</a></p><p>Scoped. Scripts first, then the team.</p></li>
+      <li><p class="htl-date"><a href="#story-shadow">Sep 29</a></p><p>Team formed, watching only. Every run turns up mistakes.</p></li>
+      <li><p class="htl-date"><a href="#go-live">Sep 30 to Oct 1</a></p><p>One PR goes live, then every PR.</p></li>
+      <li><p class="htl-date"><a href="#other-prs">Oct 2</a></p><p>PRs that would conflict wait their turn.</p></li>
+      <li><p class="htl-date"><a href="#asking-me">Oct 5 to Oct 6</a></p><p>A status report I can act on. Findings that end. Runs on an hourly schedule.</p></li>
+      <li><p class="htl-date"><a href="/copilot-pr-squad/04-catching-scope-creep/">Oct 7</a></p><p>Scope creep caught earlier. Cost per PR down.</p></li>
+      <li><p class="htl-date"><a href="/copilot-pr-squad/03-not-copilots-problem/">Oct 8</a></p><p>Cancelled builds handled. The squad keeps PR descriptions.</p></li>
+    </ol></div>
+    <figcaption id="timeline-caption">Live on every PR three days after scoping, and on an hourly schedule from Oct 6. Each date links to more detail. <a href="/copilot-pr-squad/06-lessons/#since">Since then</a>, it merges approved, green PRs, on trial.</figcaption>
+  </figure>
+  <p>Most releases were small. Four stories show the kind of thing the loop caught: shadow mode is below, and the other three are <a href="/copilot-pr-squad/03-not-copilots-problem/">Part 3</a>, <a href="/copilot-pr-squad/04-catching-scope-creep/">Part 4</a> and <a href="/copilot-pr-squad/05-making-it-cheaper/">Part 5</a>. The rest are at the end of this post, grouped by what they fixed.</p>
+
+  
+</section>
+<section id="story-shadow" aria-labelledby="story-shadow-h">
+  <h2 id="story-shadow-h">Earning write access, one step at a time</h2>
+  <p id="scoping">Before there was a team, there were scripts. An earlier squad I’d tried showed me a squad was strongest when a script made each decision and an agent supplied the judgment. So I wrote those parts first, as scripts with their own tests: sort every PR by its state, gather the facts for a round, and check a comment against those facts before posting. Then I formed the team around them.</p>
+  <p>The squad started in shadow mode: it did everything except write to GitHub, and recorded each comment it would have posted in a file instead. That let me read its work before any PR saw it. The first shadow runs each found something worth a release:</p>
+  <ul>
+    <li>A comment rewritten after failing its fact check went out without being checked again. The posting script now refuses any text the Fact Checker didn’t clear word for word.</li>
+    <li>A PR was marked as a failed build because a Copilot session had failed, while every real check was green.</li>
+    <li>Reviews were recorded where nothing read them, so the next run would have asked for the same review again.</li>
+    <li>The Reviewer couldn’t see an existing review file and escalated findings it couldn’t read.</li>
+  </ul>
+  <p id="go-live">Nothing went live until I’d read those runs. One switch moves the squad between watching and acting. One PR went live on Sep 30 and a second that evening; on Oct 1 every Copilot PR went live, with runs still started by hand.</p>
+  <p>The hourly schedule came on Oct 6, and it mattered more than I expected. On manual runs, a PR waited a median of 4.2 hours after Copilot finished for the squad’s next step, longer than my own 3.0 before the squad. On scheduled runs it waits 2.1.</p>
+</section>
+<section id="changes" aria-labelledby="changes-h">
+  <h2 id="changes-h">What else the loop caught</h2>
+  <p>The other fixes fall into four groups.</p>
+  <div class="cards cards-wide">
+    <div class="card" id="other-prs">
+      <h3>Working around other PRs</h3>
+      <ul>
+        <li><strong>Two PRs touching the same file conflict once the first merges.</strong> Now the second waits its turn, then is asked to merge main with a note on whose side wins.</li>
+        <li><strong>Some issues build on code still in an unmerged PR.</strong> Now an issue can wait for a named PR to merge, or for its requirements to be accepted, before the squad hands it to Copilot.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Reading the signals right</h3>
+      <ul>
+        <li><strong>21 of 27 PRs read as “Copilot working”, some for three days.</strong> Moving a PR to ready also starts a Copilot code review, and my script counted that as the coding agent. Now only the coding agent counts.</li>
+        <li><strong>One known break excused a whole failing log</strong>, hiding a second break on main. Now each known break excuses only the failures it explains.</li>
+        <li><strong>A known break’s fix landing asked about 20 passing PRs to merge main</strong>, moving them off their reviews. Now only a PR that shows the break is asked.</li>
+      </ul>
+    </div>
+    <div class="card" id="asking-me">
+      <h3>Asking me the right questions</h3>
+      <ul>
+        <li><strong>Questions said what happened, not what to do.</strong> Now every question ends with an ask, and my answer can be an action the next run carries out.</li>
+        <li><strong>The status report changed shape every run.</strong> One read “You (0)” with six questions underneath. Now a script writes it the same way every time.</li>
+        <li><strong>Questions stayed open after their PR moved on.</strong> Now each run closes them, and raises a fresh one if the problem still holds.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Knowing when a PR is done</h3>
+      <ul>
+        <li><strong>Findings had no way to end</strong>, and a fresh review re-raised ones I’d dropped. Now every finding ends in fix, plan or drop, and my decisions stick.</li>
+        <li><strong>Merging main triggered a new review of a ready PR</strong>, and 14 new findings drove a redesign of work that had shipped clean. Now a clean review holds unless the PR’s own code changes by 50 lines or more, or adds a code file.</li>
+        <li><strong>Copilot rewrites the PR description every session</strong>, so the section showing how the PR meets its issue kept disappearing. Now the Reviewer records it with every review, and a script writes it back.</li>
+      </ul>
+    </div>
+  </div>
+  <p>One more change made a whole post possible: from Oct 6, every run logs what it cost. <a href="/copilot-pr-squad/05-making-it-cheaper/">Part 5</a> is what that showed.</p>
+</section>
