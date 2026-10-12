@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import SayHello from '../components/SayHello.astro';
+import { SITE } from '../data/site';
+import { requireFragment } from '../lib/posts';
+---
+<Base title="About me" description={`${SITE.name}: ${SITE.tagline}`} type="profile" narrow section="about">
+  <header class="takeaway">
+    <h1>About me</h1>
+    <p class="lead">I’m Cherie Quek, and I write here about building with agents.</p>
+  </header>
+  <section id="about">
+    <Fragment set:html={requireFragment('_about')} />
+  </section>
+  <SayHello />
+</Base>

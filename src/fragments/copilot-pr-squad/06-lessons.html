@@ -1,0 +1,50 @@
+<section id="watching" aria-labelledby="watching-h">
+  <h2 id="watching-h">Keep watching, keep fixing</h2>
+
+  <p><strong>The main one: plan to keep iterating, keep watching, and fix the process a piece at a time.</strong> The squad wasn’t designed and then switched on. It got here through 96 small releases, nearly every one a response to something a real run did wrong. Budget for that from the start: someone has to read what the loop did, every run, for as long as it runs. 0.5.2 shipped on Oct 8 for a problem found that morning.</p>
+  <p>What makes that loop of fixes work:</p>
+  <ul>
+    <li><strong>Make every output traceable to the version that wrote it.</strong> A bad post leads straight to the rules that produced it, and each fix can be checked against the next run.</li>
+    <li><strong>Write the test first, then the fix.</strong> A mistake in a log became a failing test before it became a change, so it couldn’t quietly come back.</li>
+    <li><strong>Only a real run proves a fix.</strong> The cancelled-build rule <a href="/copilot-pr-squad/03-not-copilots-problem/#never-ran">passed its tests for two releases and never ran</a>. Test against data captured from the real system.</li>
+    <li><strong>Experiment before changing a model.</strong> A lower cost always gives something up. But not every job needs the most expensive model, and only a test on real work <a href="/copilot-pr-squad/05-making-it-cheaper/#cheaper-model">shows which ones do</a>.</li>
+  </ul>
+  
+</section>
+<section id="build-in" aria-labelledby="build-in-h">
+  <h2 id="build-in-h">Build these in before the loop starts</h2>
+<p>What to build in before the loop starts:</p>
+  <ul>
+    <li><strong>Measure cost per unit of work from day one.</strong> I didn’t, and had to rebuild the first week’s baseline afterwards.</li>
+    <li><strong>Earn write access in steps.</strong> Watch-only first, then one item, then all of them, then a schedule.</li>
+    <li><strong>Put decisions in scripts and judgment in the agent.</strong> A rule written as prose gets read differently from one run to the next. Write the parts that should always come out the same as tested scripts, then build the team around them.</li>
+    <li><strong>Don’t let the agent that writes something also check it.</strong> Here the Fact Checker clears every claim, and the posting script refuses anything it didn’t clear.</li>
+    <li><strong>Make steering a file, not a release.</strong> Briefs, instructions and known breaks are files the squad reads each run, so steering it is writing, not shipping.</li>
+    <li><strong>Tell the loop what isn’t its problem.</strong> Most wasted rounds came from asking Copilot to fix something it didn’t cause.</li>
+    <li><strong>Check scope at the first review.</strong> A loop repeats a bad early choice every round.</li>
+    <li><strong>Give the human one place to answer.</strong> One report, one list of questions, answered in plain text.</li>
+  </ul>
+
+</section>
+<section id="since" aria-labelledby="since-h">
+  <h2 id="since-h">Since 0.5.2</h2>
+
+  <p>This series stops at 0.5.2, on Oct 8. The squad kept shipping while I wrote it. Two of the later changes are worth knowing about:</p>
+  <ul>
+    <li><strong>It merges, on trial.</strong> The squad now squash-merges a PR once it is approved, green, and has no open question for me. A script is the gate: it checks GitHub’s own merge rules and never overrides them. It’s the next step in earning write access, and too new to say it has earned it.</li>
+    <li><strong>A cap on review rounds.</strong> Across 99 merged Copilot PRs, the median was 3 review rounds, but 10 PRs needed 10 or more. Now a PR is held for me after 10 rounds on review feedback, and I decide whether to keep going, scope it down, split it or close it.</li>
+  </ul>
+</section>
+<section id="whats-next" aria-labelledby="whats-next-h">
+  <h2 id="whats-next-h">What’s next</h2>
+
+  <figure aria-labelledby="pipeline-caption"><div class="table-wrap"><svg viewBox="0 0 1000 250" role="img" aria-labelledby="pipeline-title" style="width:100%;min-width:760px;height:auto"><title id="pipeline-title">Where the squad could sit in a longer pipeline</title><rect x="30" y="90" width="200" height="80" rx="8" fill="var(--surface)" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="6 4"/><text x="130.0" y="117.0" text-anchor="middle" font-size="14" fill="var(--ink)">Issue squad (planned):</text><text x="130.0" y="135.0" text-anchor="middle" font-size="14" fill="var(--ink)">writes issues,</text><text x="130.0" y="153.0" text-anchor="middle" font-size="14" fill="var(--ink)">requirements, designs</text><rect x="280" y="90" width="180" height="80" rx="8" fill="var(--surface)" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="6 4"/><text x="370.0" y="117.0" text-anchor="middle" font-size="14" fill="var(--ink)">Who should</text><text x="370.0" y="135.0" text-anchor="middle" font-size="14" fill="var(--ink)">build it?</text><text x="370.0" y="153.0" text-anchor="middle" font-size="14" fill="var(--ink)">(planned)</text><rect x="520" y="30" width="180" height="56" rx="8" fill="var(--surface)" stroke="var(--muted)" stroke-width="1.5"/><text x="610.0" y="54.0" text-anchor="middle" font-size="14" fill="var(--ink)">Copilot coding</text><text x="610.0" y="72.0" text-anchor="middle" font-size="14" fill="var(--ink)">agent builds</text><rect x="520" y="175" width="180" height="56" rx="8" fill="var(--surface)" stroke="var(--muted)" stroke-width="1.5"/><text x="610.0" y="199.0" text-anchor="middle" font-size="14" fill="var(--ink)">Another</text><text x="610.0" y="217.0" text-anchor="middle" font-size="14" fill="var(--ink)">builder squad builds</text><rect x="760" y="30" width="210" height="56" rx="8" fill="var(--surface)" stroke="var(--muted)" stroke-width="1.5"/><text x="865.0" y="54.0" text-anchor="middle" font-size="14" fill="var(--ink)">copilot-pr-squad</text><text x="865.0" y="72.0" text-anchor="middle" font-size="14" fill="var(--ink)">drives the PR (today)</text><rect x="760" y="175" width="210" height="56" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><text x="865.0" y="199.0" text-anchor="middle" font-size="14" fill="var(--ink)">I approve;</text><text x="865.0" y="217.0" text-anchor="middle" font-size="14" fill="var(--ink)">it merges, on trial</text><path d="M 230.0 130.0 L 278.0 130.0" fill="none" stroke="var(--muted)" stroke-width="1.5"/><polygon points="278.0,130.0 270.0,134.0 270.0,126.0" fill="var(--muted)"/><path d="M 460.0 112.0 L 518.0 60.0" fill="none" stroke="var(--muted)" stroke-width="1.5"/><polygon points="518.0,60.0 514.7,68.3 509.4,62.4" fill="var(--muted)"/><path d="M 460.0 148.0 L 518.0 200.0" fill="none" stroke="var(--muted)" stroke-width="1.5"/><polygon points="518.0,200.0 509.4,197.6 514.7,191.7" fill="var(--muted)"/><path d="M 700.0 58.0 L 758.0 58.0" fill="none" stroke="var(--muted)" stroke-width="1.5"/><polygon points="758.0,58.0 750.0,62.0 750.0,54.0" fill="var(--muted)"/><path d="M 700.0 203.0 L 758.0 203.0" fill="none" stroke="var(--muted)" stroke-width="1.5"/><polygon points="758.0,203.0 750.0,207.0 750.0,199.0" fill="var(--muted)"/><path d="M 865.0 86.0 L 865.0 173.0" fill="none" stroke="var(--muted)" stroke-width="1.5"/><polygon points="865.0,173.0 861.0,165.0 869.0,165.0" fill="var(--muted)"/></svg></div><figcaption id="pipeline-caption">Where this could go. Dashed boxes don’t exist yet; blue is mine.</figcaption></figure>
+  <ul>
+    <li><strong>Keep refining it.</strong> Keep reading the run logs and fixing what they show, one release at a time.</li>
+    <li><strong>A second user, then a second repo.</strong> It works one person’s PRs in one repo today. Each shows how much of the squad is configuration and how much is assumption.</li>
+    <li><strong>Feed it from upstream.</strong> Build a squad that writes the issues, the requirements and the designs, so work reaches this squad already scoped. Today I drive those myself.</li>
+    <li><strong>Choose who makes the fix.</strong> Decide, for each piece of work, whether Copilot should make it or another squad should, such as a builder squad.</li>
+  </ul>
+    <p><strong>Squad, or something else?</strong> bradygaster/squad is one way to build this. The same job could be built on another framework, or as one skill or scheduled prompt that calls the same scripts, since the scripts carry most of the rules. That is worth exploring later. For now I’m going to keep building on squad.</p>
+  <p>If you’re building something similar, I’d like to compare notes. <a href="https://www.linkedin.com/in/cheriequek/">Find me on LinkedIn</a>.</p>
+</section>

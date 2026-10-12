@@ -1,0 +1,52 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SERIES } from '../../data/site';
+import { requireFragment, getSeriesParts, getSeriesReferences, postUrl } from '../../lib/posts';
+
+const id = 'copilot-pr-squad';
+const series = SERIES[id];
+const parts = await getSeriesParts(id);
+const refs = await getSeriesReferences(id);
+---
+<Base title={series.title} description={series.description} type="website" section="writing">
+  <div class="intro">
+    <header class="takeaway">
+      <p class="eyebrow">{series.label}, a series in {parts.length} parts</p>
+      <h1>{series.title}</h1>
+      <p class="lead">{series.description}</p>
+    </header>
+    <Fragment set:html={requireFragment(`${id}/_scene`)} />
+  </div>
+  <nav class="toc" aria-label="Contents">
+    <p class="toc-head">This page</p>
+    <ul><li><a href="#posts">The posts</a></li><li><a href="#glossary">Glossary</a></li></ul>
+    <p class="toc-top"><a href="#content">Back to top</a></p>
+  </nav>
+  <section id="posts" aria-labelledby="posts-h">
+    <h2 id="posts-h">The posts</h2>
+    <ul class="parts">
+      {parts.map((p) => (
+        <li>
+          <a href={postUrl(p)}>
+            <span class="part-num">Part {p.data.part}</span>
+            <span class="part-title">{p.data.title}</span>
+            {p.data.summary ?? p.data.description}
+          </a>
+        </li>
+      ))}
+      {refs.map((p) => (
+        <li>
+          <a href={postUrl(p)}>
+            <span class="part-num">Reference</span>
+            <span class="part-title">{p.data.title}</span>
+            {p.data.summary ?? p.data.description}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+  <section id="glossary" aria-labelledby="glossary-h">
+    <h2 id="glossary-h">Glossary</h2>
+    <Fragment set:html={requireFragment(`${id}/_glossary`)} />
+  </section>
+</Base>

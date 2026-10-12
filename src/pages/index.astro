@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+import SayHello from '../components/SayHello.astro';
+import { SITE, SERIES, SERIES_IDS } from '../data/site';
+import { requireFragment, getSeriesParts, postUrl, seriesUrl } from '../lib/posts';
+
+// One series today, so the home page features it. Bring back a post list once there's more to choose from.
+const id = SERIES_IDS[0];
+const series = SERIES[id];
+const parts = await getSeriesParts(id);
+const first = parts[0]!;
+---
+<Base title={SITE.title} description={SITE.tagline} type="website" narrow section="writing">
+  <div class="intro">
+    <header class="takeaway">
+      <h1>{SITE.title}</h1>
+      <p class="lead">{SITE.tagline}</p>
+    </header>
+    <Fragment set:html={requireFragment('_home-hero')} />
+  </div>
+  <section id="why" aria-labelledby="why-h">
+    <h2 id="why-h">Hi, I’m Cherie</h2>
+    <Fragment set:html={requireFragment('_why')} />
+  </section>
+  <section id="writing" class="feature" aria-labelledby="writing-h">
+    <p class="eyebrow">Start here · a series in {parts.length} parts</p>
+    <h2 id="writing-h">{series.title}</h2>
+    <p>{series.description}</p>
+    <p class="feature-actions">
+      <a class="button" href={postUrl(first)}>Read part 1: {first.data.title}</a>
+      <a href={seriesUrl(id)}>See all {parts.length} parts</a>
+    </p>
+  </section>
+  <SayHello />
+</Base>

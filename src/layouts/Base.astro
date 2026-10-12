@@ -1,0 +1,65 @@
+---
+import '../styles/global.css';
+import { existsSync } from 'node:fs';
+import { SITE } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  type?: 'website' | 'article' | 'profile';
+  /** Narrow single-column layout, for pages without a side contents column. */
+  narrow?: boolean;
+  /** Which top-level nav item this page belongs to. */
+  section?: 'writing' | 'about';
+}
+
+const { title, description, type = 'article', narrow = false, section } = Astro.props;
+const fullTitle = title === SITE.name ? title : `${title} | ${SITE.name}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+// Link-preview cards come from `npm run og`; pages without a scene share the home card.
+const slug = Astro.url.pathname.replace(/^\/|\/$/g, '') || 'index';
+const ogImage = new URL(`/og/${existsSync(`public/og/${slug}.png`) ? slug : 'index'}.png`, Astro.site);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={SITE.name} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate" type="application/rss+xml" title={SITE.title} href="/rss.xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={`${SITE.title}, ${SITE.name}`} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={title} />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body class:list={{ narrow }}>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="site-header">
+      <a class="site-name" href="/">{SITE.name}</a>
+      <nav class="site-links" aria-label="Site">
+        <a href="/#writing" aria-current={section === 'writing' ? 'page' : undefined}>Writing</a>
+        <a href="/about/" aria-current={section === 'about' ? 'page' : undefined}>About</a>
+      </nav>
+    </header>
+    <main id="content" tabindex="-1">
+      <slot />
+      <footer>
+        <slot name="footer" />
+        <p class="byline">
+          {SITE.name} · <a href={SITE.linkedin}>LinkedIn</a> · <a href="/rss.xml">RSS</a> · {SITE.disclaimer}
+        </p>
+      </footer>
+    </main>
+  </body>
+</html>

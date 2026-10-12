@@ -1,0 +1,95 @@
+---
+import { render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { SERIES } from '../data/site';
+import {
+  fragment, getPosts, getSeriesParts, getSeriesReferences,
+  postUrl, seriesUrl, formatDate, type Post,
+} from '../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props as { post: Post };
+const { data } = post;
+const series = data.series ? SERIES[data.series] : undefined;
+const parts = data.series ? await getSeriesParts(data.series) : [];
+const refs = data.series ? await getSeriesReferences(data.series) : [];
+const i = parts.findIndex((p) => p.id === post.id);
+// The reference page sits after the numbered parts, so it steps back to the last one.
+const prev = i > 0 ? parts[i - 1] : i < 0 && data.kind === 'reference' ? parts.at(-1) : undefined;
+const next = i >= 0 && i < parts.length - 1 ? parts[i + 1] : undefined;
+
+const body = fragment(post.id);
+const { Content } = body === undefined ? await render(post) : { Content: undefined };
+const scene = data.series ? fragment(`${data.series}/_scene-${post.id.slice(data.series.length + 1)}`) : undefined;
+
+const placement = series
+  ? data.kind === 'reference'
+    ? `${series.label}, reference`
+    : `${series.label}, part ${data.part} of ${parts.length}`
+  : undefined;
+const eyebrow = [placement, data.date && formatDate(data.date)].filter(Boolean).join(' · ') || undefined;
+const showNote = series && (data.kind === 'reference' || (data.part ?? 1) > 1);
+---
+<Base title={data.title} description={data.description} section="writing">
+  <div class={scene ? 'intro' : undefined}>
+    <header class="takeaway">
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h1>{data.title}</h1>
+      <p class="lead">{data.description}</p>
+    </header>
+    {scene && <Fragment set:html={scene} />}
+  </div>
+  {(data.toc.length > 0 || series) && (
+    <nav class="toc" aria-label="Contents">
+      {data.toc.length > 0 && (
+        <>
+          <p class="toc-head">{data.kind === 'reference' ? 'This page' : 'This post'}</p>
+          <ul>{data.toc.map((t) => <li><a href={`#${t.id}`}>{t.title}</a></li>)}</ul>
+        </>
+      )}
+      {series && data.series && (
+        <>
+          <p class="toc-head">The series</p>
+          <ul>
+            <li><a href={seriesUrl(data.series)}>All posts</a></li>
+            {[...parts, ...refs].map((p) => (
+              <li>
+                <a href={postUrl(p)} aria-current={p.id === post.id ? 'page' : undefined}>
+                  {p.data.kind === 'reference' ? `Reference: ${p.data.title}` : `${p.data.part}. ${p.data.title}`}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+      <p class="toc-top"><a href="#content">Back to top</a></p>
+    </nav>
+  )}
+  {showNote && series && parts[0] && (
+    <p class="series-note">
+      {data.kind === 'reference' ? 'A reference page for ' : `Part ${data.part} of ${parts.length} in `}
+      <Fragment set:html={series.note} /> New here? Start with <a href={postUrl(parts[0])}>Part 1</a>.
+    </p>
+  )}
+  {data.lesson && (
+    <aside class="callout" aria-label="The lesson">
+      <p class="callout-label">The lesson</p>
+      <p>{data.lesson}</p>
+    </aside>
+  )}
+  {body !== undefined ? <Fragment set:html={body} /> : Content && <Content />}
+  {series && data.series && (
+    <nav class="series-nav" aria-label="Series" slot="footer">
+      {prev
+        ? <a href={postUrl(prev)}><span class="label">Previous</span>{prev.data.title}</a>
+        : <a href={seriesUrl(data.series)}><span class="label">Series</span>All posts</a>}
+      {next
+        ? <a href={postUrl(next)}><span class="label">Next</span>{next.data.title}</a>
+        : <a href={seriesUrl(data.series)}><span class="label">Series</span>All posts</a>}
+    </nav>
+  )}
+</Base>
