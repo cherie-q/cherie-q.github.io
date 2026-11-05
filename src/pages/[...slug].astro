@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 import { SERIES } from '../data/site';
 import {
   fragment, getPosts, getSeriesParts, getSeriesReferences,
-  postUrl, seriesUrl, formatDate, type Post,
+  postUrl, postScene, seriesUrl, formatDate, type Post,
 } from '../lib/posts';
 
 export async function getStaticPaths() {
@@ -24,7 +24,7 @@ const next = i >= 0 && i < parts.length - 1 ? parts[i + 1] : undefined;
 
 const body = fragment(post.id);
 const { Content } = body === undefined ? await render(post) : { Content: undefined };
-const scene = data.series ? fragment(`${data.series}/_scene-${post.id.slice(data.series.length + 1)}`) : undefined;
+const scene = postScene(post);
 
 const placement = series
   ? data.kind === 'reference'
@@ -81,7 +81,9 @@ const showNote = series && (data.kind === 'reference' || (data.part ?? 1) > 1);
       <p>{data.lesson}</p>
     </aside>
   )}
-  {body !== undefined ? <Fragment set:html={body} /> : Content && <Content />}
+  {body !== undefined
+    ? <Fragment set:html={body} />
+    : Content && <div class="post-body"><Content /></div>}
   {series && data.series && (
     <nav class="series-nav" aria-label="Series" slot="footer">
       {prev
