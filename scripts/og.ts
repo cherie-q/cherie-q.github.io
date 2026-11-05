@@ -4,6 +4,11 @@
 import { chromium } from 'playwright';
 import { readFileSync, readdirSync, statSync, mkdirSync, existsSync } from 'node:fs';
 import { join, extname, dirname, relative, sep } from 'node:path';
+import { parseArgs } from 'node:util';
+
+const { values: { slug: onlySlug, channel } } = parseArgs({
+  options: { slug: { type: 'string' }, channel: { type: 'string' } },
+});
 
 const DIST = 'dist';
 const OUT = join('public', 'og');
@@ -39,7 +44,10 @@ function pages(dir: string): string[] {
 /** dist/a/b/index.html -> "a/b"; dist/index.html -> "index" (matches Base.astro's lookup). */
 const slugOf = (file: string) => relative(DIST, dirname(file)).split(sep).join('/') || 'index';
 
-const browser = await chromium.launch();
+const targets = pages(DIST).filter((file) => onlySlug === undefined || slugOf(file) === onlySlug);
+if (onlySlug !== undefined && targets.length === 0) throw new Error(`No built page matches slug: ${onlySlug}`);
+
+const browser = await chromium.launch(channel ? { channel } : {});
 const context = await browser.newContext({ viewport: { width: 1200, height: 630 }, reducedMotion: 'reduce', colorScheme: 'light' });
 await context.route(`${ORIGIN}/**`, async (route) => {
   const path = decodeURI(new URL(route.request().url()).pathname);
@@ -51,7 +59,7 @@ await context.route(`${ORIGIN}/**`, async (route) => {
 
 const page = await context.newPage();
 let made = 0;
-for (const file of pages(DIST)) {
+for (const file of targets) {
   const slug = slugOf(file);
   await page.goto(`${ORIGIN}/${slug === 'index' ? '' : `${slug}/`}`);
   const built = await page.evaluate(({ css, site }) => {
@@ -87,4 +95,5 @@ for (const file of pages(DIST)) {
   made++;
 }
 await browser.close();
+if (onlySlug !== undefined && made === 0) throw new Error(`Page has no title scene to render: ${onlySlug}`);
 console.log(`og: ${made} cards`);

@@ -15,6 +15,8 @@ npm run og       # build, then render link-preview cards into public/og/
 
 Link-preview cards (1200x630) are rendered from each page's own title and scene by `scripts/og.ts` and committed, so CI needs no browser. Rerun `npm run og` after changing a title, description or scene. It needs Chromium once: `npx playwright install chromium`.
 
+To render only one page, use `npm run og -- --slug engineering-the-next-level`. To use an already-installed browser instead of Playwright's Chromium, add `--channel msedge` (Microsoft Edge) or `--channel chrome` (Google Chrome).
+
 ## Layout
 
 - `src/content/posts/` holds post metadata (frontmatter). New posts can be plain Markdown here; the renderer applies paragraph, figure and heading spacing through the `.post-body` wrapper.
