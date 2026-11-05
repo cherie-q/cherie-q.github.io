@@ -20,6 +20,10 @@ export function requireFragment(path: string): string {
   return html;
 }
 
+export function postScene(post: Post): string | undefined {
+  return fragment(post.id.replace(/([^/]+)$/, '_scene-$1'));
+}
+
 export const postUrl = (post: Post) => `/${post.id}/`;
 export const seriesUrl = (id: SeriesId) => `/${id}/`;
 

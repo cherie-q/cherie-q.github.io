@@ -1,0 +1,130 @@
+<figure class="scene evz-title-scene" aria-hidden="true">
+  <style>
+    .evz-title-scene .cupcake, .evz-title-scene .extra-s, .evz-title-scene .magic, .evz-title-scene .new-world { transform-box: fill-box; transform-origin: center; }
+    .evz-title-scene .cupcake { animation: evz-title-cupcake 8s ease-in-out infinite; transform-origin: center bottom; }
+    .evz-title-scene .extra-s { animation: evz-title-letter 8s ease-in-out infinite; }
+    .evz-title-scene .dessert-word { animation: evz-title-word 8s ease-in-out infinite; }
+    .evz-title-scene .magic { animation: evz-title-magic 8s ease-out infinite; }
+    .evz-title-scene .new-world { animation: evz-title-world-one 8s ease-out infinite; transform-origin: center bottom; }
+    .evz-title-scene .world-two { animation-name: evz-title-world-two; }
+    .evz-title-scene .world-three { animation-name: evz-title-world-three; }
+    @keyframes evz-title-letter {
+      0%, 5% { opacity: 0; transform: translate(-45px, 15px) scale(.5); }
+      10% { opacity: 1; transform: translate(-45px, 15px) scale(1); }
+      20% { opacity: 1; transform: translate(-5px, 30px) scale(1.1); }
+      31% { opacity: 1; transform: translate(65px, 20px) scale(.65); }
+      36%, 100% { opacity: 0; transform: translate(100px, 18px) scale(.1); }
+    }
+    @keyframes evz-title-word {
+      0%, 28%, 96%, 100% { opacity: 0; }
+      34%, 88% { opacity: 1; }
+    }
+    @keyframes evz-title-cupcake {
+      0%, 30% { opacity: 0; transform: translateY(28px) scale(.15) rotate(-18deg); }
+      38% { opacity: 1; transform: translateY(2px) scale(1.06) rotate(3deg); }
+      44%, 74% { opacity: 1; transform: translateY(0) scale(1) rotate(0); }
+      59%, 85% { opacity: 1; transform: translateY(-4px) scale(1) rotate(0); }
+      96%, 100% { opacity: 0; transform: translateY(22px) scale(.8) rotate(0); }
+    }
+    @keyframes evz-title-magic {
+      0%, 28%, 48%, 100% { opacity: 0; transform: scale(.6) rotate(-12deg); }
+      36% { opacity: 1; transform: scale(1) rotate(0); }
+    }
+    @keyframes evz-title-world-one {
+      0%, 44% { opacity: 0; transform: translateY(-28px) scale(.6); }
+      51% { opacity: 1; transform: translateY(3px) scale(1.04); }
+      55%, 88% { opacity: 1; transform: translateY(0) scale(1); }
+      96%, 100% { opacity: 0; transform: translateY(8px) scale(.9); }
+    }
+    @keyframes evz-title-world-two {
+      0%, 54% { opacity: 0; transform: translateY(-28px) scale(.6); }
+      61% { opacity: 1; transform: translateY(3px) scale(1.04); }
+      65%, 88% { opacity: 1; transform: translateY(0) scale(1); }
+      96%, 100% { opacity: 0; transform: translateY(8px) scale(.9); }
+    }
+    @keyframes evz-title-world-three {
+      0%, 64% { opacity: 0; transform: translateY(-28px) scale(.6); }
+      71% { opacity: 1; transform: translateY(3px) scale(1.04); }
+      75%, 88% { opacity: 1; transform: translateY(0) scale(1); }
+      96%, 100% { opacity: 0; transform: translateY(8px) scale(.9); }
+    }
+  </style>
+  <svg viewBox="0 0 380 274" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, sans-serif">
+    <circle cx="206" cy="139" r="118" fill="#e0f2fe"/>
+    <rect x="14" y="24" width="130" height="122" rx="18" fill="#fff7df" stroke="#d6b66e" stroke-width="2"/>
+    <text x="79" y="42" text-anchor="middle" font-size="16" font-weight="700" fill="#775426">desert</text>
+    <circle cx="114" cy="70" r="13" fill="#fbbf24"/>
+    <path d="M15 117 Q49 83 92 116 Q119 103 143 114 V145 H15Z" fill="#f2cb83"/>
+    <path d="M15 136 Q65 108 143 136 V145 H15Z" fill="#e9b86b"/>
+    <path d="M57 123 V78 M57 104 H43 V90 M57 95 H72 V82" fill="none" stroke="#38865d" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M153 95 Q184 116 218 91" fill="none" stroke="#0969da" stroke-width="3" stroke-linecap="round"/>
+    <path d="M209 88 L220 90 L215 100" fill="none" stroke="#0969da" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <g class="extra-s">
+      <circle cx="185" cy="62" r="20" fill="#0969da"/>
+      <text x="185" y="69" text-anchor="middle" font-size="25" font-weight="700" fill="#ffffff">s</text>
+      <path d="M181 30 V23 M163 37 L158 32 M208 38 L213 33" stroke="#e0a326" stroke-width="3" stroke-linecap="round"/>
+    </g>
+    <rect x="229" y="24" width="136" height="138" rx="18" fill="#fff0f6" stroke="#e4a6c1" stroke-width="2"/>
+    <text class="dessert-word" x="297" y="42" text-anchor="middle" font-size="16" font-weight="700" fill="#93355f">dessert</text>
+    <g class="cupcake">
+      <g transform="translate(0 10)">
+      <ellipse cx="297" cy="144" rx="38" ry="6" fill="#e4a6c1" opacity=".35"/>
+      <path d="M265 104 H329 L320 140 H274Z" fill="#65c6e5" stroke="#334155" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M282 112 L285 133 M297 112 V135 M312 112 L309 133" fill="none" stroke="#218bae" stroke-width="3" stroke-linecap="round"/>
+      <path d="M262 105 Q252 88 269 81 Q262 63 282 62 Q296 46 309 63 Q331 62 327 80 Q343 91 331 105Z" fill="#f0a6cf" stroke="#334155" stroke-width="2.5"/>
+      <circle cx="297" cy="59" r="7" fill="#e85670" stroke="#334155" stroke-width="2"/>
+      <path d="M297 52 Q298 44 304 42" fill="none" stroke="#38865d" stroke-width="2" stroke-linecap="round"/>
+      <ellipse cx="282" cy="88" rx="6" ry="8" fill="#ffffff"/>
+      <ellipse cx="311" cy="88" rx="6" ry="8" fill="#ffffff"/>
+      <circle cx="284" cy="89" r="3" fill="#334155"/>
+      <circle cx="309" cy="89" r="3" fill="#334155"/>
+      <path d="M292 98 Q297 103 302 98" fill="none" stroke="#334155" stroke-width="2" stroke-linecap="round"/>
+      <path d="M272 73 L277 76 M314 72 L319 69 M295 78 L299 75" stroke="#fff7df" stroke-width="3" stroke-linecap="round"/>
+      </g>
+    </g>
+    <g class="magic" fill="#fbbf24">
+      <path d="M244 61 L247 69 L255 72 L247 75 L244 83 L241 75 L233 72 L241 69Z"/>
+      <path d="M348 93 L351 101 L359 104 L351 107 L348 115 L345 107 L337 104 L345 101Z"/>
+      <path d="M337 51 L339 57 L345 59 L339 61 L337 67 L335 61 L329 59 L335 57Z"/>
+    </g>
+    <g transform="translate(43 169)">
+      <path d="M-19 19 Q-27-15 0-17 Q29-16 21 24 L25 57 H-23Z" fill="#334155"/>
+      <circle cy="7" r="17" fill="#f6d2b5"/>
+      <path d="M-17 1 Q-15-17 1-13 Q20-13 18 2 Q7-8-3-7Z" fill="#334155"/>
+      <circle cx="-6" cy="7" r="1.8" fill="#334155"/>
+      <circle cx="7" cy="7" r="1.8" fill="#334155"/>
+      <g fill="none" stroke="#334155" stroke-width="1.5">
+        <circle cx="-6" cy="7" r="5"/>
+        <circle cx="7" cy="7" r="5"/>
+        <path d="M-1 7 H2 M-4 17 Q1 21 6 17"/>
+      </g>
+      <path d="M-22 70 Q-24 29 0 29 Q22 29 26 70Z" fill="#2563eb"/>
+    </g>
+    <g transform="translate(97 193)">
+      <circle r="14" fill="#f6d2b5"/>
+      <path d="M-14-2 Q-15-19 0-17 Q17-17 15-1 L6-8 L0-5 L-5-8Z" fill="#334155"/>
+      <circle cx="-4" cy="1" r="1.7" fill="#334155"/>
+      <circle cx="5" cy="1" r="1.7" fill="#334155"/>
+      <path d="M-3 9 Q1 12 5 8" fill="none" stroke="#334155" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M-16 46 Q-18 17 0 17 Q18 17 20 46Z" fill="#8b5cf6"/>
+    </g>
+    <g class="new-world">
+      <rect x="151" y="178" width="54" height="41" rx="9" fill="#fff7df" stroke="#d6b66e" stroke-width="2"/>
+      <circle cx="179" cy="194" r="8" fill="#fbbf24"/>
+      <path d="M154 213 Q177 195 202 213" fill="#86c580"/>
+    </g>
+    <g class="new-world world-two">
+      <rect x="217" y="178" width="54" height="41" rx="9" fill="#e6f4ff" stroke="#7ea7cf" stroke-width="2"/>
+      <path d="M222 205 Q229 193 236 205 T250 205 T265 205" fill="none" stroke="#3b9fc4" stroke-width="5"/>
+    </g>
+    <g class="new-world world-three">
+      <rect x="283" y="178" width="54" height="41" rx="9" fill="#f0eaff" stroke="#ae96d7" stroke-width="2"/>
+      <path d="M291 204 Q309 176 329 204" fill="none" stroke="#ec8cab" stroke-width="5"/>
+      <path d="M295 206 Q310 184 325 206" fill="none" stroke="#f5cd75" stroke-width="4"/>
+      <path d="M299 208 Q310 193 321 208" fill="none" stroke="#75c5c6" stroke-width="4"/>
+    </g>
+    <rect x="142" y="225" width="205" height="13" rx="6" fill="#38865d"/>
+    <path d="M168 225 V238 M209 225 V238 M250 225 V238 M291 225 V238 M332 225 V238" stroke="#bce3ba" stroke-width="2"/>
+    <text x="245" y="261" text-anchor="middle" font-size="13" font-weight="600" fill="var(--muted)">Room for the next idea</text>
+  </svg>
+</figure>
