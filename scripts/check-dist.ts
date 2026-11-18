@@ -3,8 +3,52 @@
 // Run after `astro build`: node scripts/check-dist.ts
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
+import { createHash } from 'node:crypto';
 
 const DIST = 'dist';
+
+// Internal names (tools, repos, org, hosts, agents) are stored as hashes so this public file doesn't list them.
+// To block another: node scripts/check-dist.ts --hash "some-name"   (or "org/" to block an org path)
+const BLOCKED = new Set([
+  '7d43df87c71ee1f1',
+  '8ebb3a9af2e84da9',
+  '225ba3026edf7964',
+  'd2a3cc91a3825062',
+  '36cc6518f2eb3ef8',
+  'd7f53e788244b5b1',
+  '0c40cf2120a4c795',
+  'a1760c8116935e6f',
+  '60601392fc228ce2',
+  '6d275bf6676e616d',
+]);
+const hash = (term: string) => createHash('sha256').update(term.toLowerCase().replace(/\s+/g, ' ')).digest('hex').slice(0, 16);
+
+if (process.argv[2] === '--hash') {
+  console.log(`'${hash(process.argv[3] ?? '')}',`);
+  process.exit(0);
+}
+
+// Checks every phrase of up to three words joined by one separator (as written), and the phrase plus the next character.
+function blockedTerm(text: string): { index: number; length: number } | undefined {
+  const lower = text.toLowerCase();
+  const words = [...lower.matchAll(/[a-z0-9]+/g)];
+  for (let i = 0; i < words.length; i++) {
+    const start = words[i]!.index!;
+    let phrase = words[i]![0];
+    let end = start + phrase.length;
+    for (let n = 1; ; n++) {
+      if (BLOCKED.has(hash(phrase))) return { index: start, length: end - start };
+      if (lower[end] && BLOCKED.has(hash(phrase + lower[end]))) return { index: start, length: end + 1 - start };
+      const next = words[i + n];
+      if (n === 3 || !next) break;
+      const gap = lower.slice(end, next.index);
+      if (!/^([-./_]|\s+)$/.test(gap)) break;
+      phrase += (/\s/.test(gap) ? ' ' : gap) + next[0];
+      end = next.index! + next[0].length;
+    }
+  }
+  return undefined;
+}
 
 // Patterns that must never ship. Each was an internal detail removed during sanitization.
 const LEAKS: [RegExp, string][] = [
@@ -39,6 +83,9 @@ for (const f of text) {
     const m = t.match(re);
     if (m) errors.push(`${f}: ${why}: "${t.slice(Math.max(0, m.index! - 40), m.index! + m[0].length + 20)}"`);
   }
+  // CI logs are public, so show where the term is without printing it.
+  const b = blockedTerm(t);
+  if (b) errors.push(`${f}: blocked internal term: "${t.slice(Math.max(0, b.index - 40), b.index)}[blocked]${t.slice(b.index + b.length, b.index + b.length + 20)}"`);
 }
 
 const ids = new Map<string, Set<string>>();
